@@ -1,20 +1,16 @@
 package com.example.warmup.widget;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.warmup.ApiClient;
 import com.example.warmup.ApiService;
-import com.example.warmup.R;
 import com.example.warmup.databinding.TaskDetailDialogBinding;
-import com.example.warmup.model.DeleteTaskRequest;
 import com.example.warmup.model.GeneralResponse;
 import com.example.warmup.model.UpdateTaskRequest;
 
@@ -22,11 +18,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskDetailDialog{
-    private TaskDetailDialogBinding binding;
+public class TaskDetailDialog {
     ApiService apiService = ApiClient.getApiService();
+    private TaskDetailDialogBinding binding;
 
-    public TaskDetailDialog(Context context,String taskText, String statusText, String startTime, String endTime,String statusBt,int index) {
+    public TaskDetailDialog(Context context, String taskText, String statusText, String startTime, String endTime, String statusBt, int index) {
         LayoutInflater inflater = LayoutInflater.from(context);
         binding = TaskDetailDialogBinding.inflate(inflater);
         binding.setLifecycleOwner((LifecycleOwner) context);
@@ -45,7 +41,7 @@ public class TaskDetailDialog{
                     @Override
                     public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
                         if (response.body().getCode() == 200) {
-                            Toast.makeText(context,"更新成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
                         } else {
 
                         }
@@ -59,33 +55,31 @@ public class TaskDetailDialog{
             }
         });
         //删除任务
-//        binding.deleteTask.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("E", String.valueOf(2));
-//                DeleteTaskRequest deleteTaskRequest = new DeleteTaskRequest("qwe", 2);
-//                Call<GeneralResponse> call2 = apiService.deleteTask(deleteTaskRequest);
-//                call2.enqueue(new Callback<GeneralResponse>() {
-//                    @Override
-//                    public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
-//                        if (response.isSuccessful()) {
-//                            if (response.body().getCode() == 200) {
-//                                Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT).show();
-//                            }else {
-//                                Log.d("E","error");
-//                            }
-//                        } else {
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<GeneralResponse> call, Throwable t) {
-//                        t.printStackTrace();
-//                    }
-//                });
-//            }
-//        });
+        binding.deleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<GeneralResponse> call2 = apiService.deleteTask(index, "qwe");
+                call2.enqueue(new Callback<GeneralResponse>() {
+                    @Override
+                    public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body().getCode() == 200) {
+                                Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.d("E", "error");
+                            }
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
+        });
     }
 
     public View getView() {

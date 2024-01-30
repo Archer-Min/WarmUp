@@ -27,7 +27,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterFragment extends Fragment {
-    private AuthViewModel viewModel;
     ApiService apiService = ApiClient.getApiService();
 
     public RegisterFragment() {
@@ -39,12 +38,6 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         FragmentRegisterBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false);
         binding.textView3.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_registerFragment));
-
-        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-
-        binding.setViewModel(viewModel);
-        binding.setLifecycleOwner(this);
-
         binding.registerBt.setOnClickListener(v -> {
             String username = binding.editTextName.getText().toString();
             String password = binding.editTextPassword.getText().toString();
@@ -57,7 +50,6 @@ public class RegisterFragment extends Fragment {
                 public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                     if (response.isSuccessful()) {
                         // 登录成功，处理响应
-                        RegisterResponse registerResponse = response.body();
                         if (response.code() == 200) {
                             Toast.makeText(getContext(),"注册成功",Toast.LENGTH_SHORT).show();
                             Navigation.findNavController(getView()).navigate(R.id.action_registerFragment_to_loginFragment);

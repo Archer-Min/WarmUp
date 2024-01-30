@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.warmup.databinding.FragmentToDoListBinding;
 import com.example.warmup.model.AddTaskRequest;
 import com.example.warmup.model.AddTaskResponse;
+import com.example.warmup.model.ToDoItem;
+import com.example.warmup.model.ToDoListTableResponse;
 import com.example.warmup.widget.ToDoListItem;
 
 import java.util.ArrayList;
@@ -46,6 +48,25 @@ public class ToDoListFragment extends Fragment {
         binding.setLifecycleOwner(this);
 
         this.container = binding.itemContainer;
+
+        Call<ToDoListTableResponse> call0 = apiService.getTask("qwe");
+        call0.enqueue(new Callback<ToDoListTableResponse>() {
+            @Override
+            public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {
+                if(response.isSuccessful()){
+                    List<ToDoItem> items = response.body().getData().getItems();
+                    for (int index = 0; index < items.size(); index++) {
+                        ToDoItem item = items.get(index);
+                        addToDoItem(item.getContent());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ToDoListTableResponse> call, Throwable t) {
+
+            }
+        });
 
         binding.addTodoBt.setOnClickListener(view -> {
             toDoContent = binding.todoInput.getText().toString();

@@ -2,13 +2,11 @@ package com.example.warmup;
 
 import com.example.warmup.model.AddTaskRequest;
 import com.example.warmup.model.AddTaskResponse;
-import com.example.warmup.model.DeleteTaskRequest;
 import com.example.warmup.model.GeneralResponse;
 import com.example.warmup.model.LoginRequest;
 import com.example.warmup.model.LoginResponse;
 import com.example.warmup.model.RegisterRequest;
 import com.example.warmup.model.RegisterResponse;
-import com.example.warmup.model.ToDoListTableRequest;
 import com.example.warmup.model.ToDoListTableResponse;
 import com.example.warmup.model.UpdateTaskRequest;
 
@@ -18,6 +16,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -36,6 +35,6 @@ public interface ApiService {
     //更新任务状态
     @PUT("task")
     Call<GeneralResponse> updateTask(@Body UpdateTaskRequest updateTaskRequest);
-//    @DELETE("task")
-//    Call<GeneralResponse> deleteTask(@Body DeleteTaskRequest deleteTaskRequest);
+    @DELETE("task/{id}")
+    Call<GeneralResponse> deleteTask(@Path("id") int id, @Query("username") String username);
 }

@@ -26,7 +26,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginFragment extends Fragment {
-    private AuthViewModel viewModel;
     ApiService apiService = ApiClient.getApiService();
 
     public LoginFragment() {
@@ -38,9 +37,6 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         FragmentLoginBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
         binding.textView2.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_registerFragment));
-
-        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         binding.loginBt.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_toDoListFragment));
         binding.loginBt.setOnClickListener(v->{
