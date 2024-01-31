@@ -19,8 +19,11 @@ import com.example.warmup.model.ToDoItem;
 import com.example.warmup.model.ToDoListTableResponse;
 import com.example.warmup.widget.ToDoListItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +35,7 @@ public class ToDoListFragment extends Fragment {
     private List<ToDoListItem> itemList = new ArrayList<>();
     private ViewGroup container;
     String toDoContent;
+    String formattedDate;
 
     public ToDoListFragment() {
         // Required empty public constructor
@@ -72,7 +76,14 @@ public class ToDoListFragment extends Fragment {
             viewModel.setItem(toDoContent);
             addToDoItem(toDoContent);
 
-            AddTaskRequest addTaskRequest = new AddTaskRequest(toDoContent, "20220101", "20221109", "0", "qwe");
+            long timestamp = binding.calendarView.getDate();
+            Date date = new Date(timestamp);
+            // 使用 SimpleDateFormat 格式化日期
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+            formattedDate = sdf.format(date);
+            Log.d("date",formattedDate);
+
+            AddTaskRequest addTaskRequest = new AddTaskRequest(toDoContent, formattedDate, "20301109", "0", "qwe");
             Call<AddTaskResponse> call = apiService.addTask(addTaskRequest);
             call.enqueue(new Callback<AddTaskResponse>() {
                 @Override

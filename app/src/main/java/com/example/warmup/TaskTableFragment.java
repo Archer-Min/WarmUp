@@ -41,7 +41,7 @@ public class TaskTableFragment extends Fragment {
                 if (response.isSuccessful()) {
                     total = response.body().getData().getTotal();
                     List<ToDoItem> items = response.body().getData().getItems();
-                    for (int index = 0; index < items.size(); index++) {
+                    for (int index = 0; index < total; index++) {
                         ToDoItem item = items.get(index);
                         addTaskItem(item.getContent(), getStatusText(item.getStatus()), index);
                     }
