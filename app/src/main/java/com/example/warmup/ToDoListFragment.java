@@ -1,17 +1,16 @@
 package com.example.warmup;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.warmup.databinding.FragmentToDoListBinding;
 import com.example.warmup.model.AddTaskRequest;
@@ -41,7 +40,7 @@ public class ToDoListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentToDoListBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_to_do_list,container,false);
+        FragmentToDoListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_to_do_list, container, false);
 
         viewModel = new ViewModelProvider(this).get(ToDoListViewModel.class);
         binding.setTodolistviewmodel(viewModel);
@@ -53,7 +52,7 @@ public class ToDoListFragment extends Fragment {
         call0.enqueue(new Callback<ToDoListTableResponse>() {
             @Override
             public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     List<ToDoItem> items = response.body().getData().getItems();
                     for (int index = 0; index < items.size(); index++) {
                         ToDoItem item = items.get(index);
@@ -73,14 +72,14 @@ public class ToDoListFragment extends Fragment {
             viewModel.setItem(toDoContent);
             addToDoItem(toDoContent);
 
-            AddTaskRequest addTaskRequest = new AddTaskRequest(toDoContent,"20220101","20221109","0","qwe");
+            AddTaskRequest addTaskRequest = new AddTaskRequest(toDoContent, "20220101", "20221109", "0", "qwe");
             Call<AddTaskResponse> call = apiService.addTask(addTaskRequest);
             call.enqueue(new Callback<AddTaskResponse>() {
                 @Override
                 public void onResponse(Call<AddTaskResponse> call, Response<AddTaskResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         AddTaskResponse addTaskResponse = response.body();
-                        Toast.makeText(getContext(),addTaskResponse.getMse(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), addTaskResponse.getMse(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -97,7 +96,7 @@ public class ToDoListFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void addToDoItem(String toDoContent){
+    private void addToDoItem(String toDoContent) {
         ToDoListItem toDoListItem = new ToDoListItem(getContext());
         toDoListItem.setItemText(toDoContent);
         itemList.add(toDoListItem);

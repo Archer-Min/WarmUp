@@ -11,7 +11,7 @@ public class ToDoListItem {
     private View view; // 组件的根视图
     private TextView textView;
 
-    public ToDoListItem(Context context){
+    public ToDoListItem(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.todo_container, null);
 

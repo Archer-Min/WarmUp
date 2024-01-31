@@ -29,12 +29,15 @@ public interface ApiService {
     //创建任务
     @POST("task")
     Call<AddTaskResponse> addTask(@Body AddTaskRequest addTaskRequest);
+
     //获取任务
     @GET("task")
     Call<ToDoListTableResponse> getTask(@Query("username") String username);
+
     //更新任务状态
     @PUT("task")
     Call<GeneralResponse> updateTask(@Body UpdateTaskRequest updateTaskRequest);
+
     @DELETE("task/{id}")
     Call<GeneralResponse> deleteTask(@Path("id") int id, @Query("username") String username);
 }

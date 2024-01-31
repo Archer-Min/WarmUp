@@ -12,9 +12,9 @@ public class ToDoItemInTable {
     private TextView taskText;
     private TextView statusText;
 
-    public ToDoItemInTable(Context context,String task,String status){
+    public ToDoItemInTable(Context context, String task, String status) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.todo_container_in_table,null);
+        view = inflater.inflate(R.layout.todo_container_in_table, null);
         taskText = view.findViewById(R.id.task);
         statusText = view.findViewById(R.id.status);
         taskText.setText(task);

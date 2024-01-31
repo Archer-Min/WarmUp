@@ -1,24 +1,17 @@
 package com.example.warmup;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.warmup.databinding.FragmentLoginBinding;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.example.warmup.databinding.FragmentRegisterBinding;
-import com.example.warmup.model.LoginRequest;
-import com.example.warmup.model.LoginResponse;
 import com.example.warmup.model.RegisterRequest;
 import com.example.warmup.model.RegisterResponse;
 
@@ -51,10 +44,10 @@ public class RegisterFragment extends Fragment {
                     if (response.isSuccessful()) {
                         // 登录成功，处理响应
                         if (response.code() == 200) {
-                            Toast.makeText(getContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();
                             Navigation.findNavController(getView()).navigate(R.id.action_registerFragment_to_loginFragment);
                         } else {
-                            Toast.makeText(getContext(),"注册失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "注册失败", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Log.d("re", "Error: " + response.code());

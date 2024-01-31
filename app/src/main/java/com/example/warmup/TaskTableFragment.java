@@ -2,15 +2,13 @@ package com.example.warmup;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.example.warmup.databinding.FragmentTaskTableBinding;
 import com.example.warmup.model.ToDoItem;
@@ -33,14 +31,14 @@ public class TaskTableFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentTaskTableBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_task_table,container,false);
+        FragmentTaskTableBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_task_table, container, false);
         this.container = binding.taskItemContainer;
 
         Call<ToDoListTableResponse> call = apiService.getTask("qwe");
         call.enqueue(new Callback<ToDoListTableResponse>() {
             @Override
             public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     total = response.body().getData().getTotal();
                     List<ToDoItem> items = response.body().getData().getItems();
                     for (int index = 0; index < items.size(); index++) {
@@ -58,17 +56,17 @@ public class TaskTableFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void addTaskItem(String task,String status,int index){
-        ToDoItemInTable toDoItemInTable = new ToDoItemInTable(getContext(),task,status);
+    private void addTaskItem(String task, String status, int index) {
+        ToDoItemInTable toDoItemInTable = new ToDoItemInTable(getContext(), task, status);
         toDoItemInTable.getView().setOnClickListener(view -> {
             Call<ToDoListTableResponse> call = apiService.getTask("qwe");
             call.enqueue(new Callback<ToDoListTableResponse>() {
                 @Override
                 public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         List<ToDoItem> items = response.body().getData().getItems();
                         ToDoItem item = items.get(index);
-                        showTaskDetailDialog(getContext(), item.getContent(), getStatusText(item.getStatus()), item.getStartTime(), item.getEndTime(),getStatusBt(item.getStatus()),index+1);
+                        showTaskDetailDialog(getContext(), item.getContent(), getStatusText(item.getStatus()), item.getStartTime(), item.getEndTime(), getStatusBt(item.getStatus()), index + 1);
                     }
                 }
 
@@ -84,15 +82,16 @@ public class TaskTableFragment extends Fragment {
     private String getStatusText(String status) {
         return (status.equals("0")) ? "未完成" : "已完成";
     }
+
     private String getStatusBt(String status) {
         return (status.equals("0")) ? "确认已完成" : "改为未完成";
     }
 
-    private void showTaskDetailDialog(Context context, String taskText, String statusText, String startTime, String endTime,String statusBt,int index) {
+    private void showTaskDetailDialog(Context context, String taskText, String statusText, String startTime, String endTime, String statusBt, int index) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("任务详情");
 
-        TaskDetailDialog taskDetailDialog = new TaskDetailDialog(context, taskText, statusText, startTime, endTime,statusBt, index);
+        TaskDetailDialog taskDetailDialog = new TaskDetailDialog(context, taskText, statusText, startTime, endTime, statusBt, index);
 
         builder.setView(taskDetailDialog.getView())
                 .setPositiveButton("确定", (dialog, id) -> dialog.dismiss());
