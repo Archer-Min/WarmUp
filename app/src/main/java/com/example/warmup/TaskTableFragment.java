@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+
 import com.example.warmup.databinding.FragmentTaskTableBinding;
 import com.example.warmup.model.ToDoItem;
 import com.example.warmup.model.ToDoListTableResponse;
@@ -34,7 +35,7 @@ public class TaskTableFragment extends Fragment {
         FragmentTaskTableBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_task_table, container, false);
         this.container = binding.taskItemContainer;
 
-        Call<ToDoListTableResponse> call = apiService.getTask("qwe");
+        Call<ToDoListTableResponse> call = apiService.getTask("qwe",null);
         call.enqueue(new Callback<ToDoListTableResponse>() {
             @Override
             public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {
@@ -53,13 +54,59 @@ public class TaskTableFragment extends Fragment {
 
             }
         });
+
+        //查找未完成的事项
+        binding.search.setOnClickListener(view -> {
+            this.container.removeAllViews();
+            Call<ToDoListTableResponse> call1 = apiService.getTask("qwe","0");
+            call1.enqueue(new Callback<ToDoListTableResponse>() {
+                @Override
+                public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {
+                    if (response.isSuccessful()) {
+                        total = response.body().getData().getTotal();
+                        List<ToDoItem> items = response.body().getData().getItems();
+                        for (int index = 0; index < total; index++) {
+                            ToDoItem item = items.get(index);
+                            addTaskItem(item.getContent(), getStatusText(item.getStatus()), index);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ToDoListTableResponse> call, Throwable t) {
+
+                }
+            });
+        });
+        binding.refresh.setOnClickListener(view -> {
+            this.container.removeAllViews();
+            Call<ToDoListTableResponse> call1 = apiService.getTask("qwe",null);
+            call1.enqueue(new Callback<ToDoListTableResponse>() {
+                @Override
+                public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {
+                    if (response.isSuccessful()) {
+                        total = response.body().getData().getTotal();
+                        List<ToDoItem> items = response.body().getData().getItems();
+                        for (int index = 0; index < total; index++) {
+                            ToDoItem item = items.get(index);
+                            addTaskItem(item.getContent(), getStatusText(item.getStatus()), index);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ToDoListTableResponse> call, Throwable t) {
+
+                }
+            });
+        });
         return binding.getRoot();
     }
 
     private void addTaskItem(String task, String status, int index) {
         ToDoItemInTable toDoItemInTable = new ToDoItemInTable(getContext(), task, status);
         toDoItemInTable.getView().setOnClickListener(view -> {
-            Call<ToDoListTableResponse> call = apiService.getTask("qwe");
+            Call<ToDoListTableResponse> call = apiService.getTask("qwe",null);
             call.enqueue(new Callback<ToDoListTableResponse>() {
                 @Override
                 public void onResponse(Call<ToDoListTableResponse> call, Response<ToDoListTableResponse> response) {

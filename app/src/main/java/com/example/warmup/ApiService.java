@@ -32,7 +32,7 @@ public interface ApiService {
 
     //获取任务
     @GET("task")
-    Call<ToDoListTableResponse> getTask(@Query("username") String username);
+    Call<ToDoListTableResponse> getTask(@Query("username") String username, @Query("status") String status);
 
     //更新任务状态
     @PUT("task")
