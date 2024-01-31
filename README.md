@@ -1,6 +1,7 @@
 # 西二warm up作业——todolist
 
 使用retrofit2网络框架练习前后端对接
+(一开始java写顺手了。后面会改用Kotlin)
 
 ## 登录注册
 ![登录](https://github.com/Archer-Min/WarmUp/assets/113236230/7cbe7bee-b6e5-45d1-b965-ee16bf39365a)
