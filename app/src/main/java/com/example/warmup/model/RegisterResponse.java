@@ -8,4 +8,8 @@ public class RegisterResponse {
         this.msg = msg;
         this.code = code;
     }
+
+    public int getCode() {
+        return code;
+    }
 }

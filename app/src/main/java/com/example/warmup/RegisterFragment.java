@@ -42,8 +42,8 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                     if (response.isSuccessful()) {
-                        // 登录成功，处理响应
-                        if (response.code() == 200) {
+                        RegisterResponse registerResponse = response.body();
+                        if (registerResponse.getCode() == 200) {
                             Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();
                             Navigation.findNavController(getView()).navigate(R.id.action_registerFragment_to_loginFragment);
                         } else {

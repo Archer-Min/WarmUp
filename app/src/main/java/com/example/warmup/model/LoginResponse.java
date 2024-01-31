@@ -10,4 +10,8 @@ public class LoginResponse {
         this.code = code;
         this.token = token;
     }
+
+    public int getCode() {
+        return code;
+    }
 }

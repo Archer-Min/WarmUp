@@ -46,7 +46,7 @@ public class LoginFragment extends Fragment {
                     if (response.isSuccessful()) {
                         // 登录成功，处理响应
                         LoginResponse loginResponse = response.body();
-                        if (response.code() == 200) {
+                        if (loginResponse.getCode() == 200) {
                             Toast.makeText(getContext(), "登录成功", Toast.LENGTH_SHORT).show();
                             Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_toDoListFragment);
                         } else {
